@@ -1,4 +1,3 @@
-
 import cx_Oracle
 
 try:
@@ -10,9 +9,9 @@ try:
     )
     print(connection.version)
     cursor=connection.cursor()
-    # cursor.execute("INSERT INTO ROL (IDROL, DESCROL) VALUES ('3', 'Pasante')")
+    cursor.execute("INSERT INTO ROL (IDROL, DESCROL) VALUES ('1', 'Entrenador')")
     # cursor.execute("UPDATE ROL SET DESCROL = 'Pasante' WHERE IDROL = 2")
-    # cursor.execute("UPDATE ROL SET DESCROL = 'Entrenador' WHERE IDROL = 3")
+    # cursor.execute("UPDATE ROL SET DESCROL = 'Entrenador' WHERE IDROL = 1")
     connection.commit()
     cursor.execute("SELECT * FROM ROL")
     rows=cursor.fetchall()
