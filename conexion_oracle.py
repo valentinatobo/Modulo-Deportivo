@@ -38,7 +38,7 @@ def init():
 # path for index
 @app.route('/index')
 def index():
-    titulo = "Modulo Deportivo UD"
+    titulo = "Prueb"
     print("redireccionado")
     return render_template('formulario.html', titulo=titulo)
 
@@ -66,7 +66,7 @@ def insert_default():
     return col
 
 @app.route('/select')
-def select_def():
+def select_ROL():
     try:
         cdtls = get_credentials()
         print(f"Credentials: {cdtls}")
@@ -86,6 +86,27 @@ def select_def():
         connection.close()
         col+=" Conexión Finalizada"
     return col
+#Consulta tabla
+@app.route('/Personal')
+def get_personal():
+    try:
+        cdtls = get_credentials()
+        print(f"Credentials: {cdtls}")
+        connection = cx_Oracle.connect(
+            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}'
+        )
+        cur = connection.cursor()
+        cur.execute("""SELECT P.IDPERSONAL, R.DESCROL, S.NOMBRESEDE, P.NOMBREDOCENTE, P.APELLIDODOCENTE
+                        FROM PERSONAL P, ROL R, SEDE S
+                        WHERE P.IDROLFK=R.IDROL AND P.IDSEDEFK=S.IDSEDE""")
+        rows=cur.fetchall()
+        print(rows)
+    except Exception as ex:
+        print("Exeption")
+        return str(ex)
+    finally:
+        connection.close()
+    return render_template('tabla.html', contacts=rows)
 
 def get_credentials():
     # Opening JSON file

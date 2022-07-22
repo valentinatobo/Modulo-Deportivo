@@ -9,10 +9,16 @@
         </tr>
     </thead>
     <tbody>
-        {% for contac in contacts}
+        {% for contac in contacts %}
             <tr>
                 <td>
                     {{contac.0}}
+                </td>
+                <td>
+                    {{contac.3}}
+                </td>
+                <td>
+                    {{contac.4}}
                 </td>
                 <td>
                     {{contac.1}}
@@ -21,12 +27,9 @@
                     {{contac.2}}
                 </td>
                 <td>
-                    {{contac.3}}
-                </td>
-                <td>
                     <a href="/edit/{{contac.0}}">Editar</a>
                 </td>
             </tr>
-        {$endfor}
+        {% endfor %}
     </tbody>
 </table>
