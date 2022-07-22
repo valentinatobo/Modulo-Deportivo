@@ -1,0 +1,7 @@
+{
+    "user": "MODULODEP",
+    "psswrd": "1234",
+    "host": "localhost",
+    "port": "1521",
+    "db": "XE"
+  }
