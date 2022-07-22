@@ -1,0 +1,32 @@
+<table>
+    <thead>
+        <tr>
+            <th>Id Personal</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Tipo de personal</th>
+            <th>Sede</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contac in contacts}
+            <tr>
+                <td>
+                    {{contac.0}}
+                </td>
+                <td>
+                    {{contac.1}}
+                </td>
+                <td>
+                    {{contac.2}}
+                </td>
+                <td>
+                    {{contac.3}}
+                </td>
+                <td>
+                    <a href="/edit/{{contac.0}}">Editar</a>
+                </td>
+            </tr>
+        {$endfor}
+    </tbody>
+</table>
