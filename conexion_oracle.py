@@ -11,7 +11,6 @@ app = Flask(__name__)
 #         dsn='localhost:1521/XE',
 #         encoding='UTF-8'
 #     )
-#     print(connection.version)
 #     cursor=connection.cursor()
 #     # cursor.execute("INSERT INTO ROL (IDROL, DESCROL) VALUES ('3', 'Pasante')")
 #     # cursor.execute("UPDATE ROL SET DESCROL = 'Pasante' WHERE IDROL = 2")
@@ -22,7 +21,6 @@ app = Flask(__name__)
 #     for row in rows:
 #         print(row)
 # except Exception as ex:
-#     print("Exeption")
 #     print(ex)
 # finally:
 #     connection.close()
@@ -31,15 +29,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def init():
-    print("coneccion index")
     return index()
 
 
 # path for index
 @app.route('/index')
 def index():
-    titulo = "Modulo Deportivo UD"
-    print("redireccionado")
+    titulo = "Prueb"
     return render_template('formulario.html', titulo=titulo)
 
 
@@ -48,7 +44,6 @@ def index():
 def insert_default():
     try:
         cdtls = get_credentials()
-        print(f"Credentials: {cdtls}")
         connection = cx_Oracle.connect(
             f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}'
         )
@@ -66,10 +61,9 @@ def insert_default():
     return col
 
 @app.route('/select')
-def select_def():
+def select_ROL():
     try:
         cdtls = get_credentials()
-        print(f"Credentials: {cdtls}")
         connection = cx_Oracle.connect(
             f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}'
         )
@@ -86,6 +80,101 @@ def select_def():
         connection.close()
         col+=" Conexión Finalizada"
     return col
+#Consulta tabla
+@app.route('/Personal')
+def get_personal():
+    try:
+        cdtls = get_credentials()
+        connection = cx_Oracle.connect(
+            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}'
+        )
+        cur = connection.cursor()
+        cur.execute("""SELECT P.IDPERSONAL, R.DESCROL, S.NOMBRESEDE, P.NOMBREDOCENTE, P.APELLIDODOCENTE
+                        FROM PERSONAL P, ROL R, SEDE S
+                        WHERE P.IDROLFK=R.IDROL AND P.IDSEDEFK=S.IDSEDE""")
+        rows=cur.fetchall()
+    except Exception as ex:
+        print("Exeption")
+        return str(ex)
+    finally:
+        connection.close()
+    return render_template('tabla.html', contacts=rows)
+
+@app.route('/addPersonal')
+def personal_form():
+    return render_template('form.html')
+
+@app.route('/addPersonal', methods={'POST'})
+def insert_personal():
+    if request.method=='POST':
+        id=request.form['idPersonal']
+        nombre=request.form['nombre']
+        apellido=request.form['apellido']
+        tPersonal=request.form['tipoPersonal']
+        sede=request.form['sede']
+    try:
+        cdtls = get_credentials()
+        connection = cx_Oracle.connect(
+            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}')
+        cur = connection.cursor()
+        query=f"""INSERT INTO PERSONAL (IDPERSONAL, IDROLFK, IDSEDEFK, NOMBREDOCENTE, APELLIDODOCENTE)
+                        VALUES ('{id}','{tPersonal}','{sede}','{nombre}','{apellido}')"""
+        cur.execute(query)
+        connection.commit()
+    except Exception as ex:
+        print("Exeption")
+        return str(ex)
+    finally:
+        connection.close()
+    return get_personal()
+
+@app.route('/edit/<string:id>')
+def edit_form(id):
+    try:
+        cdtls = get_credentials()
+        connection = cx_Oracle.connect(
+            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}'
+        )
+        cur = connection.cursor()
+        cur.execute(f"""SELECT P.IDPERSONAL, R.DESCROL, S.NOMBRESEDE, P.NOMBREDOCENTE, P.APELLIDODOCENTE
+                        FROM PERSONAL P, ROL R, SEDE S
+                        WHERE P.IDROLFK=R.IDROL AND P.IDSEDEFK=S.IDSEDE AND '{id}'=P.IDPERSONAL""")
+        rows=cur.fetchall()[0]
+    except Exception as ex:
+        print("Exeption")
+        return str(ex)
+    finally:
+        connection.close()
+    return render_template('editUser.html', contact=rows)
+
+@app.route('/edit/<string:id>',  methods={'POST'})
+def preubasUpdate(id):
+    if request.method=='POST':
+        id=request.form['idPersonal']
+        nombre=request.form['nombre']
+        apellido=request.form['apellido']
+        tPersonal=request.form['tipoPersonal']
+        sede=request.form['sede']
+    try:
+        cdtls = get_credentials()
+        connection = cx_Oracle.connect(
+            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}'
+        )
+        cur = connection.cursor()
+        cur.execute(f"""SELECT IDSEDE FROM SEDE WHERE NOMBRESEDE='{sede}'""")
+        __sede=cur.fetchall()[0][0]
+        cur.execute(f"""SELECT IDROL FROM ROL WHERE DESCROL='{tPersonal}'""")
+        __tPersonal=cur.fetchall()[0][0]
+        query=f"""UPDATE PERSONAL SET IDROLFK='{__tPersonal}', IDSEDEFK='{__sede}', NOMBREDOCENTE='{nombre}', APELLIDODOCENTE='{apellido}'
+                        WHERE  IDPERSONAL='{id}'"""
+        cur.execute(query)
+        connection.commit()
+    except Exception as ex:
+        print("Exeption")
+        return str(ex)
+    finally:
+        connection.close()
+    return get_personal()
 
 def get_credentials():
     # Opening JSON file

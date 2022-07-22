@@ -1,0 +1,21 @@
+<form action="/edit/{{contact.0}}" method="POST">
+    <label for="">Id personal</label>
+    <input type="text" name="idPersonal" value="{{ contact.0 }}">
+    <label for="">Nomre</label>
+    <input type="text" name="nombre" value="{{ contact.3 }}">
+    <label for="">Apellido</label>
+    <input type="text" name="apellido" value="{{ contact.4 }}">
+    <label for="">Tipo personal</label>
+    <input type="text" name="tipoPersonal" value="{{ contact.1 }}">
+    <!-- <select name="tipoPersonal" id="">
+        <option value="1">1</option>
+        <option value="2">2</option>
+    </select> -->
+    <label for="">Sede</label>
+    <input type="text" name="sede" value="{{ contact.2 }}">
+    <!-- <select name="sede" id="">
+        <option value="s1">s1</option>
+        <option value="s2">s2</option>
+    </select> -->
+    <button type="submit">Editar</button>
+</form>
