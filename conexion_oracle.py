@@ -29,13 +29,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def init():
-    return index()
+    return get_personal()
 
 
 # path for index
 @app.route('/index')
 def index():
-    titulo = "Prueb"
+    titulo = "Prueba"
     return render_template('formulario.html', titulo=titulo)
 
 
