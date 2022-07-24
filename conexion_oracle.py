@@ -60,26 +60,6 @@ def insert_default():
         col+="Conexión Finalizada"
     return col
 
-@app.route('/select')
-def select_ROL():
-    try:
-        cdtls = get_credentials()
-        connection = cx_Oracle.connect(
-            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}'
-        )
-        cur = connection.cursor()
-        cur.execute("SELECT * FROM ROL")
-        rows=cur.fetchall()
-        col=""
-        for row in rows:
-            col+=str(row)
-    except Exception as ex:
-        print("Exeption")
-        col=ex
-    finally:
-        connection.close()
-        col+=" Conexión Finalizada"
-    return col
 #Consulta tabla
 @app.route('/Personal')
 def get_personal():
@@ -102,7 +82,21 @@ def get_personal():
 
 @app.route('/addPersonal')
 def personal_form():
-    return render_template('form.html')
+    try:
+        cdtls = get_credentials()
+        connection = cx_Oracle.connect(
+            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}')
+        cur = connection.cursor()
+        cur.execute("SELECT * FROM ROL")
+        rols=cur.fetchall()
+        cur.execute("SELECT * FROM SEDE")
+        sedes=cur.fetchall()
+    except Exception as ex:
+        print("Exeption")
+        return str(ex)
+    finally:
+        connection.close()
+    return render_template('form.html', infoRols = rols, infoSedes = sedes)
 
 @app.route('/addPersonal', methods={'POST'})
 def insert_personal():
