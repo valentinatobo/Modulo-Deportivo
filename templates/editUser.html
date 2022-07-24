@@ -6,16 +6,28 @@
     <label for="">Apellido</label>
     <input type="text" name="apellido" value="{{ contact.4 }}">
     <label for="">Tipo personal</label>
-    <input type="text" name="tipoPersonal" value="{{ contact.1 }}">
-    <!-- <select name="tipoPersonal" id="">
-        <option value="1">1</option>
-        <option value="2">2</option>
-    </select> -->
+    <!-- <input type="text" name="tipoPersonal" value="{{ contact.1 }}"> -->
+    <select name="tPersonal" id="">
+        {% if infoSelec[0][1]==contact.1  %}
+            <option value="{{infoSelec[0][0]}}">{{infoSelec[0][1]}}</option>
+        {% endif %}
+        {% for rol in infoRols %}
+            {% if infoSelec[0][0]!=rol.0  %}
+                <option value="{{rol.0}}">{{rol.1}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
     <label for="">Sede</label>
-    <input type="text" name="sede" value="{{ contact.2 }}">
-    <!-- <select name="sede" id="">
-        <option value="s1">s1</option>
-        <option value="s2">s2</option>
-    </select> -->
+    <!-- <input type="text" name="sede" value="{{ contact.2 }}"> -->
+    <select name="tsede" id="">
+        {% if infoSelec[1][1]==contact.2  %}
+            <option value="{{infoSelec[1][0]}}">{{infoSelec[1][1]}}</option>
+        {% endif %}
+        {% for sede in infoSedes %}
+            {% if infoSelec[1][0]!=sede.0  %}
+                <option value="{{sede.0}}">{{sede.1}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
     <button type="submit">Editar</button>
 </form>

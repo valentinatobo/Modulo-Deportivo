@@ -25,7 +25,44 @@ app = Flask(__name__)
 # finally:
 #     connection.close()
 #     print("Conexión Finalizada")
+def getInfoSelec():
+    try:
+        cdtls = get_credentials()
+        connection = cx_Oracle.connect(
+            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}')
+        cur = connection.cursor()
+        cur.execute("SELECT * FROM ROL")
+        rols=cur.fetchall()
+        cur.execute("SELECT * FROM SEDE")
+        sedes=cur.fetchall()
+    except Exception as ex:
+        print("Exeption")
+        return str(ex)
+    finally:
+        connection.close()
+    return rols, sedes
 
+def getInfo(id):
+    try:
+        cdtls = get_credentials()
+        connection = cx_Oracle.connect(
+            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}')
+        cur = connection.cursor()
+        cur.execute(f"""SELECT P.IDROLFK, R.DESCROL
+                        FROM PERSONAL P, ROL R
+                        WHERE '{id}'=P.IDPERSONAL AND P.IDROLFK=R.IDROL""")
+        infoRol=cur.fetchall()
+        cur.execute(f"""SELECT P.IDSEDEFK, S.NOMBRESEDE
+                        FROM PERSONAL P, SEDE S
+                        WHERE '{id}'=P.IDPERSONAL AND P.IDSEDEFK=S.IDSEDE""")
+        infoSede=cur.fetchall()
+        
+    except Exception as ex:
+        print("Exeption metodo get")
+        return str(ex)
+    finally:
+        connection.close()
+    return infoRol[0], infoSede[0]
 
 @app.route('/')
 def init():
@@ -82,21 +119,8 @@ def get_personal():
 
 @app.route('/addPersonal')
 def personal_form():
-    try:
-        cdtls = get_credentials()
-        connection = cx_Oracle.connect(
-            f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}')
-        cur = connection.cursor()
-        cur.execute("SELECT * FROM ROL")
-        rols=cur.fetchall()
-        cur.execute("SELECT * FROM SEDE")
-        sedes=cur.fetchall()
-    except Exception as ex:
-        print("Exeption")
-        return str(ex)
-    finally:
-        connection.close()
-    return render_template('form.html', infoRols = rols, infoSedes = sedes)
+    info = getInfoSelec();
+    return render_template('form.html', infoRols = info[0], infoSedes = info[1])
 
 @app.route('/addPersonal', methods={'POST'})
 def insert_personal():
@@ -104,8 +128,8 @@ def insert_personal():
         id=request.form['idPersonal']
         nombre=request.form['nombre']
         apellido=request.form['apellido']
-        tPersonal=request.form['tipoPersonal']
-        sede=request.form['sede']
+        tPersonal=request.form['tPersonal']
+        sede=request.form['tsede']
     try:
         cdtls = get_credentials()
         connection = cx_Oracle.connect(
@@ -139,7 +163,10 @@ def edit_form(id):
         return str(ex)
     finally:
         connection.close()
-    return render_template('editUser.html', contact=rows)
+    info = getInfoSelec();
+    get_Info =  getInfo(id);
+    print(get_Info)
+    return render_template('editUser.html', contact=rows,infoRols = info[0], infoSedes = info[1], infoSelec = get_Info)
 
 @app.route('/edit/<string:id>',  methods={'POST'})
 def preubasUpdate(id):
@@ -147,19 +174,21 @@ def preubasUpdate(id):
         id=request.form['idPersonal']
         nombre=request.form['nombre']
         apellido=request.form['apellido']
-        tPersonal=request.form['tipoPersonal']
-        sede=request.form['sede']
+        # tPersonal=request.form['tipoPersonal']
+        # sede=request.form['sede']
+        Personal=request.form['tPersonal']
+        tsede=request.form['tsede']
     try:
         cdtls = get_credentials()
         connection = cx_Oracle.connect(
             f'{cdtls["user"]}/{cdtls["psswrd"]}@{cdtls["host"]}:{cdtls["port"]}/{cdtls["db"]}'
         )
         cur = connection.cursor()
-        cur.execute(f"""SELECT IDSEDE FROM SEDE WHERE NOMBRESEDE='{sede}'""")
-        __sede=cur.fetchall()[0][0]
-        cur.execute(f"""SELECT IDROL FROM ROL WHERE DESCROL='{tPersonal}'""")
-        __tPersonal=cur.fetchall()[0][0]
-        query=f"""UPDATE PERSONAL SET IDROLFK='{__tPersonal}', IDSEDEFK='{__sede}', NOMBREDOCENTE='{nombre}', APELLIDODOCENTE='{apellido}'
+        # cur.execute(f"""SELECT IDSEDE FROM SEDE WHERE NOMBRESEDE='{sede}'""")
+        # __sede=cur.fetchall()[0][0]
+        # cur.execute(f"""SELECT IDROL FROM ROL WHERE DESCROL='{tPersonal}'""")
+        # __tPersonal=cur.fetchall()[0][0]
+        query=f"""UPDATE PERSONAL SET IDROLFK='{Personal}', IDSEDEFK='{tsede}', NOMBREDOCENTE='{nombre}', APELLIDODOCENTE='{apellido}'
                         WHERE  IDPERSONAL='{id}'"""
         cur.execute(query)
         connection.commit()
