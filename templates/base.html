@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <style>
-        img{
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        img {
             width: 100%;
             height: 100%;
+            
         }
-        .encabezado{
+
+        .encabezado {
             display: flex;
             align-items: center;
             /* justify-content: center; */
-            border-bottom: gray solid #00000029;
+            border-bottom: 1px solid #00000029;
             /* margin-bottom: 10px; */
-            /* background-color: blue; */
-            width: 100%;
-            height: 10vh;
+            background-color: rgba(117, 7, 7, 0.9);
+            color: #fff;
+            width: 100vw;
+            height: 12vh;
+            margin: 0px;
         }
     </style>
+    <script src="https://kit.fontawesome.com/54c0f9a846.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
-    <h1>Prueba </h1>
-    {% block content %}
     <head>
         <div class="encabezado">
-            <div style="width: 45px; height: 45px; margin: 3px;">
-                <img src="./logon.png" alt="logo deportivo">
+            <div style="width: 65px; height: 65px; margin: 15px;">
+                <img src="../static/imgs/deportes.png" alt="logo deportivo">
             </div>
-            <h2>Modulo Deportivo - Personal de la Universidad</h2>
+            <h1>Modulo Deportivo - Personal de la Universidad</h1>
         </div>
     </head>
-
-    
+    {% block content %}
     {% endblock %}
 </body>
+
 </html>

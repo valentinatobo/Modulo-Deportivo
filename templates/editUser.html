@@ -1,17 +1,21 @@
 <style>
+    body {
+        margin: 0px;
+        padding: 0px;
+    }
+
     .container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        width: 98vw;
-        height: 80vh;
-        margin: 10px;
+        justify-content: flex-start;
+        width: 100vw;
+        height: 87vh;
         background-color: rgba(0, 0, 0, 0.1);
     }
 
     .conForm {
-        width: 300px;
+        width: 310px;
         height: 470px;
         padding: 10px;
         border: gray solid #00000029;
@@ -21,6 +25,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin: 50px;
     }
 
     .conbut {
@@ -77,7 +82,53 @@
         /* line-height: inherit; */
         transition: 0.3s ease;
     }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+        outline: 0;
+        box-shadow: none;
+        border: 0 !important;
+        background: rgba(0, 0, 0, 0.1);
+        background-image: none;
+        flex: 1;
+        padding: 0 .5em;
+        color: #000;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .select {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 35px;
+        line-height: 3;
+        background: rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border-radius: .25em;
+    }
+
+    .select::after {
+        content: '\25BC';
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0 1em;
+        background: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        pointer-events: none;
+        transition: .25s all ease;
+    }
 </style>
+{% extends "base.html" %}
+{% block title %}
+index
+{% endblock %}
+{% block content %}
 
 <div class="container">
     <div class="conForm">
@@ -85,26 +136,23 @@
 
         <form action="/edit/{{contact.0}}" method="POST">
             <label for="">Id personal</label>
-            <input type="text" name="idPersonal" value="{{ contact.0 }}" readonly>
+            <input type="text" name="idPersonal" value="{{ contact.0 }}" >
             <label for="">Nomre</label>
             <input type="text" name="nombre" value="{{ contact.3 }}" required>
             <label for="">Apellido</label>
             <input type="text" name="apellido" value="{{ contact.4 }}" required>
             <label for="">Tipo personal</label>
             <input type="text" name="tipoPersonal" value="{{ contact.1 }}" required>
-            <!-- <select name="tipoPersonal" id="">
-        <option value="1">1</option>
-        <option value="2">2</option>
-    </select> -->
+            <!-- <div class="select">
+            </div> -->
             <label for="">Sede</label>
             <input type="text" name="sede" value="{{ contact.2 }}" required>
-            <!-- <select name="sede" id="">
-        <option value="s1">s1</option>
-        <option value="s2">s2</option>
-    </select> -->
+            <!-- <div class="select">
+            </div> -->
             <div class="conbut">
                 <button type="submit">Editar</button>
             </div>
         </form>
     </div>
 </div>
+{% endblock %}
