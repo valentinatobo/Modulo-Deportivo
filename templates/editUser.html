@@ -1,21 +1,110 @@
-<form action="/edit/{{contact.0}}" method="POST">
-    <label for="">Id personal</label>
-    <input type="text" name="idPersonal" value="{{ contact.0 }}">
-    <label for="">Nomre</label>
-    <input type="text" name="nombre" value="{{ contact.3 }}">
-    <label for="">Apellido</label>
-    <input type="text" name="apellido" value="{{ contact.4 }}">
-    <label for="">Tipo personal</label>
-    <input type="text" name="tipoPersonal" value="{{ contact.1 }}">
-    <!-- <select name="tipoPersonal" id="">
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 98vw;
+        height: 80vh;
+        margin: 10px;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .conForm {
+        width: 300px;
+        height: 470px;
+        padding: 10px;
+        border: gray solid #00000029;
+        border-radius: 20px;
+        /* background: white 0% 0% no-repeat padding-box; */
+        box-shadow: 0px 10px 20px #00000037;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .conbut {
+        width: 99%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        margin: 15px;
+        padding: 5px;
+
+    }
+
+    button {
+        width: 80px;
+        height: 28px;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.9);
+        border: 0px;
+        font-size: 18px;
+        color: antiquewhite;
+    }
+
+    button:hover {
+        cursor: pointer;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        color: rgba(#000000, 0.6);
+        font-size: 13px;
+        font-weight: 300;
+        line-height: 1;
+        text-transform: uppercase;
+        letter-spacing: .2em;
+    }
+
+    input {
+        outline: none;
+        display: block;
+        background: rgba(0, 0, 0, 0.1);
+        width: 100%;
+        height: 35px;
+        border: 0;
+        border-radius: 4px;
+        box-sizing: border-box;
+        padding: 12px 20px;
+        color: rgba(#000000, 0.6);
+        ;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: 500;
+        /* line-height: inherit; */
+        transition: 0.3s ease;
+    }
+</style>
+
+<div class="container">
+    <div class="conForm">
+        <h2>Edición de {{ contact.3 }} </h2>
+
+        <form action="/edit/{{contact.0}}" method="POST">
+            <label for="">Id personal</label>
+            <input type="text" name="idPersonal" value="{{ contact.0 }}" readonly>
+            <label for="">Nomre</label>
+            <input type="text" name="nombre" value="{{ contact.3 }}" required>
+            <label for="">Apellido</label>
+            <input type="text" name="apellido" value="{{ contact.4 }}" required>
+            <label for="">Tipo personal</label>
+            <input type="text" name="tipoPersonal" value="{{ contact.1 }}" required>
+            <!-- <select name="tipoPersonal" id="">
         <option value="1">1</option>
         <option value="2">2</option>
     </select> -->
-    <label for="">Sede</label>
-    <input type="text" name="sede" value="{{ contact.2 }}">
-    <!-- <select name="sede" id="">
+            <label for="">Sede</label>
+            <input type="text" name="sede" value="{{ contact.2 }}" required>
+            <!-- <select name="sede" id="">
         <option value="s1">s1</option>
         <option value="s2">s2</option>
     </select> -->
-    <button type="submit">Editar</button>
-</form>
+            <div class="conbut">
+                <button type="submit">Editar</button>
+            </div>
+        </form>
+    </div>
+</div>
