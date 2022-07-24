@@ -6,15 +6,13 @@
     <label for="">Apellido</label>
     <input type="text" name="apellido">
     <label for="">Tipo personal</label>
-    <!-- <input type="text" name="tipoPersonal"> -->
-    <select name="tPersonal" id="">   
+    <select name="tPersonal" id="" required>   
         {% for rol in infoRols %}
             <option value="{{rol.0}}">{{rol.1}}</option>
         {% endfor %}
     </select>
     <label for="">Sede</label>
-    <!-- <input type="text" name="sede"> -->
-    <select name="tsede" id="">
+    <select name="tsede" id="" required>
         {% for sede in infoSedes %}
             <option value="{{sede.0}}">{{sede.1}}</option>
         {% endfor %}
