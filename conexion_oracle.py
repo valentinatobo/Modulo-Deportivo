@@ -36,7 +36,7 @@ def init():
 @app.route('/index')
 def index():
     titulo = "Prueb"
-    return render_template('formulario.html', titulo=titulo)
+    return render_template('tabla.html', titulo=titulo)
 
 
 # Prueba de Conexion a la Base de Datos
