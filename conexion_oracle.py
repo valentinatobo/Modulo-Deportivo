@@ -35,8 +35,8 @@ def init():
 # path for index
 @app.route('/index')
 def index():
-    titulo = "Prueb"
-    return render_template('formulario.html', titulo=titulo)
+    titulo = "Prueba"
+    return get_personal()
 
 
 # Prueba de Conexion a la Base de Datos

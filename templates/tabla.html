@@ -1,35 +1,206 @@
-<table>
-    <thead>
-        <tr>
-            <th>Id Personal</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Tipo de personal</th>
-            <th>Sede</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for contac in contacts %}
-            <tr>
-                <td>
-                    {{contac.0}}
-                </td>
-                <td>
-                    {{contac.3}}
-                </td>
-                <td>
-                    {{contac.4}}
-                </td>
-                <td>
-                    {{contac.1}}
-                </td>
-                <td>
-                    {{contac.2}}
-                </td>
-                <td>
-                    <a href="/edit/{{ contac.0 }}">Editar</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<style>
+    body {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .fondo {
+        width: 99.4vw;
+        height: 86vh;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.1);
+        /* background-color: red; */
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenido {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid #A2ACAF;
+        padding-left: 10px;
+        width: 16.6%;
+        margin-bottom: 20px;
+        background-color: rgb(25, 33, 41);
+        font-size: 20px;
+        color: aliceblue;
+    }
+
+    .init {
+        border: 1px solid #A2ACAF;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .end {
+        border: 1px solid #A2ACAF;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        width: 6%;
+    }
+
+    .pad {
+        padding-left: 35px;
+    }
+
+    td {
+
+        padding-left: 10px;
+        width: 16.6%;
+        border: 1px solid #A2ACAF;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        border: gray solid #00000029;
+        border-radius: 20px;
+        background: white 0% 0% no-repeat padding-box;
+        box-shadow: 0px 10px 20px #00000029;
+        opacity: 1;
+        padding: 0 20px 20px 15px;
+        width: 90%;
+        height: fit-content;
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .cont {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    a {
+        outline: none;
+        text-decoration: none;
+        padding: 2px 1px 0;
+        color: black;
+    }
+
+    .but {
+
+        border: 1px solid #707070;
+        margin-top: 10px;
+        margin-left: 10px;
+        width: 105px;
+        height: 15px;
+        border-radius: 50px;
+        background: #fff;
+        color: black;
+        text-align: left;
+        padding: 10px;
+        align-items: center;
+        font-size: 18px;
+    }
+
+    a:hover {
+        cursor: pointer;
+    }
+
+    .icono {
+
+        border-radius: 50%;
+        width: 17px;
+        height: 17px;
+        background-color: rgb(25, 33, 41);
+        position: relative;
+        left: 79px;
+        bottom: 27px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-family: fantasy;
+        font-size: 25px;
+    }
+
+    .edit {
+        margin-right: 3px;
+        width: 28px;
+        height: 28px;
+        /* border: 3px; */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(25, 33, 41);
+        padding: 3px;
+
+    }
+
+    .edit:hover {
+        cursor: pointer;
+    }
+
+    
+</style>
+
+{% extends "base.html" %}
+{% block title %}
+index
+{% endblock %}
+{% block content %}
+<div class="fondo">
+    <div class="container">
+        <div class="cont">
+            <h2>Lista Personal</h2>
+            <a class="but" href="/addPersonal">Adicionar <div class="icono fondo"><b>+</b></div></a>
+        </div>
+        <div class="contenido">
+            <table style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="init">Id Personal</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Tipo de personal</th>
+                        <th>Sede</th>
+                        <th class="end">Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contac in contacts %}
+                    <tr>
+                        <td class="init">
+                            {{contac.0}}
+                        </td>
+                        <td>
+                            {{contac.3}}
+                        </td>
+                        <td>
+                            {{contac.4}}
+                        </td>
+                        <td>
+                            {{contac.1}}
+                        </td>
+                        <td>
+                            {{contac.2}}
+                        </td>
+                        <td class="end pad">
+                            <a href="/edit/{{ contac.0 }}" class="edit">
+                                <div class="svg_image"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="22.773" height="22.708"
+                                        viewBox="0 0 32.773 32.708">
+                                        <g id="Grupo_139" data-name="Grupo 139" transform="translate(-49 28)">
+                                            <g id="Grupo_37" data-name="Grupo 37" transform="translate(49 -28)"
+                                                clip-path="url(#clip-path)">
+                                                <path id="Trazado_56" data-name="Trazado 56"
+                                                    d="M27.872,2.027A2.865,2.865,0,0,1,29.9,6.916L27.842,8.968,23.786,4.919l2.057-2.051a2.868,2.868,0,0,1,2.03-.842M22.429,6.27l1.352,1.349L7.6,23.77a5.456,5.456,0,0,0-1.857-.845l16.6-16.569Zm2.709,2.7,1.352,1.349-.086.086L9.8,26.974a5.371,5.371,0,0,0-.847-1.853ZM4.417,24.672A3.632,3.632,0,0,1,8.044,28.48l-1.883.607a4.778,4.778,0,0,0-2.537-2.531l.607-1.879c.063,0,.123-.005.186-.005M3.038,28.389a2.9,2.9,0,0,1,1.286,1.283l-1.894.605ZM27.992,0a4.784,4.784,0,0,0-3.5,1.518L19.637,6.356,3.028,22.935a.591.591,0,0,0-.093.1l-.03.025-.036.03a.232.232,0,0,0-.036.035c-.01.01-.02.015-.025.025l-.041.04-.02.03a.38.38,0,0,0-.03.047.068.068,0,0,0-.022.03.355.355,0,0,0-.03.046.152.152,0,0,0-.02.04c-.005.015-.015.025-.02.041a.523.523,0,0,0-.02.066c0,.005-.01.01-.01.017v.015L.047,31.46a.957.957,0,0,0,.909,1.248.919.919,0,0,0,.291-.047l7.96-2.545.015-.005c.02-.005.041-.015.063-.02l.025-.01c.02-.01.041-.02.061-.032a.193.193,0,0,0,.041-.025c.015-.01.035-.02.051-.03l.036-.025.03-.025.037-.03.03-.03a.134.134,0,0,0,.025-.03l.025-.025a.344.344,0,0,0,.051-.047L26.4,13.114l4.847-4.848A4.771,4.771,0,0,0,27.992,0"
+                                                    transform="translate(0 0)" fill="#fff" fill-rule="evenodd" />
+                                            </g>
+                                        </g>
+                                    </svg></div>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
